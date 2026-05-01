@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# CFFI / C build artifacts
+# The generated C wrapper and object file are build intermediaries.
+# The compiled .so is committed so the package works without a build step.
+finops_backtest/metrics/_metrics_cffi.c
+finops_backtest/metrics/_metrics_cffi.o
+*.o
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
