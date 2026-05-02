@@ -64,6 +64,13 @@ def _run_demo() -> None:
         print("-" * 40)
 
 
+def _run_mcp() -> None:
+    """Start the FinOps Backtest MCP server (stdio transport)."""
+    from finops_backtest.mcp_server import main as mcp_main
+
+    mcp_main()
+
+
 def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(
         prog="finops-backtest",
@@ -71,11 +78,17 @@ def main(argv: list[str] | None = None) -> None:
     )
     sub = parser.add_subparsers(dest="command")
     sub.add_parser("demo", help="Run a built-in demo backtest")
+    sub.add_parser(
+        "mcp",
+        help="Start the MCP server (stdio transport)",
+    )
 
     args = parser.parse_args(argv)
 
     if args.command == "demo":
         _run_demo()
+    elif args.command == "mcp":
+        _run_mcp()
     else:
         parser.print_help()
 
