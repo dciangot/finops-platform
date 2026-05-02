@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=68", "wheel", "cffi>=1.15"]
+build-backend = "setuptools.backends.legacy:build"
+
+[project]
+name = "finops-backtest"
+version = "0.1.0"
+description = "FinOps Backtest Engine – cloud cost optimisation analysis with C-backed metrics and LLM insights"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+keywords = ["finops", "cloud", "cost", "optimisation", "backtest", "llm"]
+dependencies = [
+    "cffi>=1.15",
+    "openai>=1.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-mock>=3.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["finops_backtest*"]
+
+# Build the CFFI C extension automatically during `pip install`
+[tool.setuptools]
+# cffi_modules are picked up by setuptools via the legacy build backend
+# Run `python finops_backtest/metrics/ffi_build.py` to build manually.
+
+[project.scripts]
+finops-backtest = "finops_backtest.__main__:main"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-v"
+
