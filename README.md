@@ -74,7 +74,76 @@ llm = LLMClient(
 
 ---
 
-## CLI Demo
+## MCP Server
+
+The engine ships with a built-in [Model Context Protocol](https://modelcontextprotocol.io/) (MCP) server that lets AI assistants run backtests directly.
+
+### Start the server
+
+```bash
+# Via the dedicated console script
+finops-backtest-mcp
+
+# Or via the module CLI
+python -m finops_backtest mcp
+```
+
+Both commands start an MCP server on the **stdio** transport (the default for most MCP clients).
+
+### Claude Desktop configuration
+
+Add the following block to your `claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "finops-backtest": {
+      "command": "finops-backtest-mcp"
+    }
+  }
+}
+```
+
+### Available MCP tools
+
+| Tool | Description |
+|---|---|
+| `list_builtin_strategies` | List all built-in strategy types with descriptions |
+| `run_backtest` | Run one or more strategies against historical cost data and return per-strategy metrics |
+
+### Tool input format
+
+**`run_backtest`**
+
+```json
+{
+  "cost_entries": [
+    {
+      "date": "2024-01-01",
+      "service": "EC2",
+      "cost": 1000.0,
+      "usage": 20.0,
+      "region": "us-east-1",
+      "tags": {"env": "production"}
+    }
+  ],
+  "strategies": [
+    {"type": "reserved_instances"},
+    {"type": "spot_instances"},
+    {"type": "custom_discount", "discount_pct": 25.0, "name": "Negotiated Discount"}
+  ]
+}
+```
+
+Built-in strategy types: `reserved_instances` (30 % off), `spot_instances` (60 % off), `rightsizing` (15 % off), `custom_discount` (any `discount_pct`).
+
+### Installation with MCP support
+
+```bash
+pip install ".[mcp]"
+```
+
+---
 
 ```bash
 python -m finops_backtest demo
@@ -88,6 +157,7 @@ python -m finops_backtest demo
 finops_backtest/
 ├── engine.py            # BacktestEngine orchestrator
 ├── __main__.py          # CLI entry point
+├── mcp_server.py        # MCP server (FastMCP tools)
 ├── data/
 │   └── models.py        # CostEntry, CostData, Strategy, BacktestResult
 ├── llm/

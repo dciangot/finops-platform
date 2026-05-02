@@ -20,6 +20,9 @@ dev = [
     "pytest>=7.0",
     "pytest-mock>=3.0",
 ]
+mcp = [
+    "mcp>=1.0",
+]
 
 [tool.setuptools.packages.find]
 where = ["."]
@@ -32,6 +35,7 @@ include = ["finops_backtest*"]
 
 [project.scripts]
 finops-backtest = "finops_backtest.__main__:main"
+finops-backtest-mcp = "finops_backtest.mcp_server:main"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
